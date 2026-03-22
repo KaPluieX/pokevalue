@@ -2,6 +2,9 @@ import { useState } from 'react'
 import Advisor from './components/Advisor'
 import Search from './components/Search'
 import TargetList from './components/TargetList'
+import Portfolio from './components/Portfolio'
+import PackSimulator from './components/PackSimulator'
+import HeatMap from './components/HeatMap'
 
 function App() {
   const [activeTab, setActiveTab] = useState('advisor')
@@ -21,10 +24,10 @@ function App() {
 
         {/* Tab Navigation */}
         <div className="bg-white rounded-t-2xl shadow-xl">
-          <div className="flex border-b border-gray-200">
+          <div className="flex flex-wrap border-b border-gray-200">
             <button
               onClick={() => setActiveTab('advisor')}
-              className={`flex-1 py-4 px-6 text-center font-semibold transition-all ${
+              className={`flex-1 min-w-[120px] py-4 px-4 text-center font-semibold transition-all ${
                 activeTab === 'advisor'
                   ? 'bg-red-600 text-white border-b-4 border-red-700'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -34,7 +37,7 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('search')}
-              className={`flex-1 py-4 px-6 text-center font-semibold transition-all ${
+              className={`flex-1 min-w-[120px] py-4 px-4 text-center font-semibold transition-all ${
                 activeTab === 'search'
                   ? 'bg-red-600 text-white border-b-4 border-red-700'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -44,13 +47,43 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('targetList')}
-              className={`flex-1 py-4 px-6 text-center font-semibold transition-all ${
+              className={`flex-1 min-w-[120px] py-4 px-4 text-center font-semibold transition-all ${
                 activeTab === 'targetList'
                   ? 'bg-red-600 text-white border-b-4 border-red-700'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
               🎯 Target List
+            </button>
+            <button
+              onClick={() => setActiveTab('portfolio')}
+              className={`flex-1 min-w-[120px] py-4 px-4 text-center font-semibold transition-all ${
+                activeTab === 'portfolio'
+                  ? 'bg-red-600 text-white border-b-4 border-red-700'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              💼 Portfolio
+            </button>
+            <button
+              onClick={() => setActiveTab('packSimulator')}
+              className={`flex-1 min-w-[120px] py-4 px-4 text-center font-semibold transition-all ${
+                activeTab === 'packSimulator'
+                  ? 'bg-red-600 text-white border-b-4 border-red-700'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              🎴 Pack Sim
+            </button>
+            <button
+              onClick={() => setActiveTab('heatMap')}
+              className={`flex-1 min-w-[120px] py-4 px-4 text-center font-semibold transition-all ${
+                activeTab === 'heatMap'
+                  ? 'bg-red-600 text-white border-b-4 border-red-700'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              🗺️ Heat Map
             </button>
           </div>
 
@@ -59,6 +92,9 @@ function App() {
             {activeTab === 'advisor' && <Advisor />}
             {activeTab === 'search' && <Search />}
             {activeTab === 'targetList' && <TargetList />}
+            {activeTab === 'portfolio' && <Portfolio />}
+            {activeTab === 'packSimulator' && <PackSimulator />}
+            {activeTab === 'heatMap' && <HeatMap />}
           </div>
         </div>
 

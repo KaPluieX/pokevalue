@@ -49,17 +49,77 @@ const TargetList = () => {
     }
   }
 
+  const calculatePSAScore = (card) => {
+    const setName = card.set?.name?.toLowerCase() || ''
+    const rarity = card.rarity?.toLowerCase() || ''
+    const cardName = card.name?.toLowerCase() || ''
+
+    let psaScore = 5
+    if (setName.includes('base set') || setName.includes('jungle') || setName.includes('fossil')) {
+      psaScore = 7
+    }
+    if (rarity.includes('secret rare') || rarity.includes('special illustration rare')) {
+      psaScore = 8
+    }
+    const popularChars = ['charizard', 'pikachu', 'mewtwo', 'eevee', 'gengar']
+    if (popularChars.some(char => cardName.includes(char))) {
+      psaScore += 1
+    }
+    if (card.price > 50) {
+      psaScore += 1
+    }
+    return Math.min(10, psaScore)
+  }
+
+  const exportToCSV = () => {
+    const headers = ['Name', 'Set', 'Rarity', 'Price', 'Investment Score', 'PSA Score', 'Notes', 'Date Saved']
+    const rows = targetList.map(card => {
+      const psaScore = calculatePSAScore(card)
+      return [
+        card.name,
+        card.set.name,
+        card.rarity,
+        card.price.toFixed(2),
+        card.score.toFixed(1),
+        psaScore,
+        card.notes || '',
+        new Date(card.savedAt).toLocaleDateString()
+      ]
+    })
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `pokevalue-target-list-${new Date().toISOString().split('T')[0]}.csv`
+    link.click()
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-gray-800">🎯 Target List</h2>
         {targetList.length > 0 && (
-          <button
-            onClick={clearAll}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-all"
-          >
-            Clear All
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={exportToCSV}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-all"
+            >
+              Export CSV
+            </button>
+            <button
+              onClick={clearAll}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-all"
+            >
+              Clear All
+            </button>
+          </div>
         )}
       </div>
 
