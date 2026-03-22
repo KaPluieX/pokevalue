@@ -1,0 +1,73 @@
+Build a Pokemon card investment advisor web app called 'PokeValue' for a collector named buddyfox33.
+
+## Core Purpose
+Simple question: "I have X dollars — what Pokemon cards should I buy RIGHT NOW as a smart investment?"
+The app answers that question. Pokemon TCG only.
+
+## User Inputs
+1. Budget — dollar amount (text input + preset buttons: $25 / $50 / $100 / $250 / $500+)
+2. Era preference — checkboxes (can pick multiple):
+   - Vintage (Base Set era, 1999-2003)
+   - Classic (HeartGold/SoulSilver through Black/White, 2010-2013)
+   - Modern (XY through Sword/Shield, 2014-2022)
+   - Current (Scarlet/Violet, 2023-present)
+   - Popular Characters (Charizard, Pikachu, Mewtwo, Eevee, Gengar)
+3. Risk appetite — radio: Conservative / Balanced / Aggressive
+
+## What Gets Returned
+After hitting "Find My Cards":
+1. Card results grid — fetched from Pokemon TCG API, filtered and sorted by investment score
+2. Bar chart (Chart.js) — shows each recommended card's market price vs investment score side by side
+3. Plain-text advisor summary — a paragraph of analysis like:
+   "With a $100 budget and focus on vintage cards, your strongest plays are... [specific reasoning about the returned cards]"
+   This text should reference the actual cards returned and explain WHY they are good buys.
+
+## Investment Score (1-5 stars)
+Score based on rarity:
+- Secret Rare / Special Illustration Rare = 5 stars
+- Ultra Rare / Full Art / Rainbow Rare = 4 stars
+- Rare Holo = 3 stars
+- Uncommon = 2 stars
+- Common = 1 star
+
+Bonuses (cap at 5):
+- Card is a popular character (Charizard, Pikachu, Mewtwo, Eevee, Gengar): +0.5
+- Card price is above 20 USD (demand signal): +0.5
+- Card fits within user budget: +0.5
+
+## What "Wise Buy" Means in the Analysis Text
+For conservative: stable high-demand cards that hold value
+For balanced: mix of proven cards and ones with upside
+For aggressive: lower-priced rares that could spike
+
+## API
+Pokemon TCG API base: https://api.pokemontcg.io/v2/cards
+Example query for vintage holos: ?q=set.series:Base rarity:"Rare Holo"&pageSize=20
+Price data: card.tcgplayer.prices.holofoil.market OR card.tcgplayer.prices.normal.market
+Only show cards that have price data available.
+
+## Tech Stack
+- React + Vite
+- Chart.js for the bar chart
+- Tailwind CSS via CDN
+- LocalStorage for a Target List (save cards to track)
+- No backend
+
+## Three Tabs
+1. Advisor — the main flow (inputs + results + chart + text analysis)
+2. Search — free-search any Pokemon card by name, see investment score and price
+3. Target List — saved cards, with a notes field and current price shown
+
+## Style
+- Pokemon color palette: red, white, yellow accents
+- Card images large and prominent
+- Mobile friendly — buddyfox33 uses this at card shops
+- Loading spinner while API fetches
+
+## Deliverables
+- Full working React/Vite app
+- README.md with setup steps (npm install, npm run dev)
+- .gitignore
+
+When completely finished, run this exact command:
+openclaw system event --text "Done: PokeValue app built in C:/Users/jbdri/Projects/pokevalue" --mode now
